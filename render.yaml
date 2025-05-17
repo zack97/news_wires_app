@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: mon-symfony-app
+    env: php
+    buildCommand: "composer install --no-interaction --prefer-dist --optimize-autoloader"
+    startCommand: "" # facultatif
+    envVars:
+      - key: APP_ENV
+        value: prod
+      - key: APP_SECRET
+        value: "uneSuperCléSecrète"
+    buildFilter:
+      paths:
+        - src/**/*
+        - templates/**/*
+        - config/**/*
+        - public/**/*
