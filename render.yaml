@@ -1,17 +1,10 @@
 services:
   - type: web
-    name: mon-symfony-app
+    name: news-wires-app
     env: php
-    buildCommand: "composer install --no-interaction --prefer-dist --optimize-autoloader"
-    startCommand: "" # facultatif
+    buildCommand: "composer install --no-dev --optimize-autoloader"
+    startCommand: "php -S 0.0.0.0:10000 -t public"
+    plan: free
     envVars:
       - key: APP_ENV
         value: prod
-      - key: APP_SECRET
-        value: "uneSuperCléSecrète"
-    buildFilter:
-      paths:
-        - src/**/*
-        - templates/**/*
-        - config/**/*
-        - public/**/*
