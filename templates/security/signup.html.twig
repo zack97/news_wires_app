@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SignUp{% endblock %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' %}
+    {% include 'partials/nav.html.twig' %}
+
+<div class="container full-height d-flex justify-content-center align-items-center">
+    <div class="signup-container">
+        <h1>Sign Up</h1>
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ form_start(signupForm, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+            <div class="form-group">
+                {{ form_label(signupForm.username) }}
+                {{ form_widget(signupForm.username, {'attr': {'placeholder': 'Enter your username'}}) }}
+                {{ form_errors(signupForm.username) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(signupForm.email) }}
+                {{ form_widget(signupForm.email, {'attr': {'placeholder': 'Enter your email'}}) }}
+                {{ form_errors(signupForm.email) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(signupForm.plainPassword.first) }}
+                {{ form_widget(signupForm.plainPassword.first, {'attr': {'placeholder': 'Enter your password'}}) }}
+                {{ form_errors(signupForm.plainPassword.first) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(signupForm.plainPassword.second) }}
+                {{ form_widget(signupForm.plainPassword.second, {'attr': {'placeholder': 'Confirm your password'}}) }}
+                {{ form_errors(signupForm.plainPassword.second) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_widget(signupForm.isAdmin) }}
+                {{ form_label(signupForm.isAdmin) }}
+                {{ form_errors(signupForm.isAdmin) }}
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+
+        {{ form_end(signupForm) }}
+
+        <div class="login-link">
+            <p style="color: black;">Already have an account?</p>
+            <p><a href="{{ path('app_login') }}">Log in here</a>.</p>
+        </div>
+    </div>
+</div>
+
+    {% include 'partials/footer.html.twig' %}
+    <script src="{{ asset('assets/js/theme-handler.js') }}"></script>
+{% endblock %}

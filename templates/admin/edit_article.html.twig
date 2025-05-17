@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Edit Article</h1>
+
+    <form method="post" enctype="multipart/form-data" class="p-4 shadow rounded bg-light">
+        <div class="mb-3">
+            <label class="form-label">Title:</label>
+            <input type="text" name="title_art" class="form-control" value="{{ article.titleArt }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Content:</label>
+            <textarea name="content_art" class="form-control" rows="6" required>{{ article.contentArt }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Publication Date:</label>
+            <input type="date" name="date_art" class="form-control" value="{{ article.dateArt ? article.dateArt|date('Y-m-d') : '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Current Image:</label><br>
+            {% if article.imageArt %}
+                <img src="{{ asset('uploads/images/' ~ article.imageArt) }}" style="width: 150px;">
+            {% else %}
+                <em>No image</em>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Upload New Image:</label>
+            <input type="file" name="image_art" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{{ path('admin_articles') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

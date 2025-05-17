@@ -1,0 +1,49 @@
+controllers:
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+
+home:
+  path: /
+  controller: App\Controller\ArticleController::index
+
+article_show:
+  path: /article/{id}
+  controller: App\Controller\ArticleController::show
+
+article_list:
+  path: /articles
+  controller: App\Controller\ArticleController::list
+
+favorites_add:
+  path: /favorites/add
+  controller: App\Controller\ArticleController::add
+
+search_article:
+  path: /Search
+  controller: App\Controller\ArticleController::search
+
+app_login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+
+admin_users:
+  path: /manage/users
+  controller: App\Controller\AdminController::adminUsers
+
+admin_articles:
+  path: /manage/articles
+  controller: App\Controller\AdminController::adminArticles
+
+delete_user:
+  path: /delete-user
+  controller: App\Controller\AdminController::deleteUser
+
+edit_article:
+  path: /article/edit/{id}
+  controller: App\Controller\AdminController::editArticle
+
+delete_article:
+  path: /article/delete/{id}
+  controller: App\Controller\AdminController::deleteArticle

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+<!-- Inclusion de l'en-tête -->
+{% include 'partials/header.html.twig' %}
+
+{% include 'partials/nav.html.twig' %}
+
+
+
+{% include 'partials/articles.html.twig' %}
+
+
+
+{% include 'partials/footer.html.twig' %}
+
+<!-- Script personnalisé -->
+<script src="../../assets/js/theme-handler.js"></script>
+{% endblock %}

@@ -1,0 +1,66 @@
+<header class="py-4">
+    <div class="container">
+        <div class="row align-items-center header-ul">
+            <div class="col-md-3 text-center text-md-left">
+                <a href="/" class="ajax-link">
+                    <img src="{{ asset('uploads/images/news.jpg') }}" alt="icone_news" class="logo img-fluid" />
+                </a>
+            </div>
+
+            <div class="col-md-9 text-center text-md-right">
+                <ul class="list-unstyled d-flex flex-column flex-md-row justify-content-md-end mb-0" id="header-links">
+
+                    {% if app.user %}
+                        <li class="mr-md-3">
+                            <span class="text-success">
+                                {{ app.user.isAdmin ? 'Admin - ' ~ app.user.username : 'Client - ' ~ app.user.username }}
+                            </span>
+                        </li>
+
+                        <li class="mr-md-3 d-flex align-items-center">
+                            <a href="#" data-toggle="modal" data-target="#profileImageModal" class="mr-2 ajax-link">
+                                {% if app.user.profileImage %}
+                                    <img src="{{ asset('uploads/images/' ~ app.user.profileImage) }}"
+                                         alt="Profile Image"
+                                         class="profile-img"
+                                         style="width: 25px; height:25px; border-radius: 50%;" />
+                                {% else %}
+                                    <i class="fa-solid fa-user i_user"></i>
+                                {% endif %}
+                            </a>
+                            <a href="#" data-toggle="modal" data-target="#viewProfileImageModal" title="View Full Image" class="ajax-link">
+                                <i class="fas fa-eye text-primary"></i>
+                            </a>
+                        </li>
+
+                        <li class="mr-md-3">
+                            <form id="logoutForm" action="{{ path('app_logout') }}" method="POST">
+                                <button type="submit" class="btn btn-danger">Log Out</button>
+                            </form>
+                        </li>
+
+                    {% else %}
+                        <li class="mr-md-3 none" style="color: #333;">Questions? +1 (202) 335-3939</li>
+                        <li class="mr-md-3 none" style="color: #333;">Contact</li>
+                        <li class="mr-md-3">
+                            <a href="{{ path('app_login') }}" class="btn btn-primary ajax-link">Log In</a>
+                        </li>
+                    {% endif %}
+
+                    <li class="mr-md-3">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="themeDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Theme
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="themeDropdown">
+                                <a class="dropdown-item" href="#" id="light-theme">Light Theme</a>
+                                <a class="dropdown-item" href="#" id="dark-theme">Dark Theme</a>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

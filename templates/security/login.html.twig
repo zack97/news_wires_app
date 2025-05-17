@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    {% include 'partials/header.html.twig' %}
+    {% include 'partials/nav.html.twig' %}
+
+    <div class="container full-height d-flex justify-content-center align-items-center">
+        <div class="login-container">
+            <h1>Connexion</h1>
+
+            {% if errorMessage %}
+                <div class="alert alert-danger">{{ errorMessage }}</div>
+            {% endif %}
+
+            <form action="{{ path('app_login') }}" method="POST">
+                <div class="form-group">
+                    <label for="_username">Email :</label>
+                    <input 
+                        type="email" 
+                        id="_username" 
+                        name="_username" 
+                        class="form-control" 
+                        placeholder="Entrez votre email" 
+                        required 
+                        autofocus 
+                        value="{{ last_username|default('') }}"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="_password">Mot de passe :</label>
+                    <input 
+                        type="password" 
+                        id="_password" 
+                        name="_password" 
+                        class="form-control" 
+                        placeholder="Entrez votre mot de passe" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group remember">
+                    <label for="_remember_me">
+                        <input type="checkbox" id="_remember_me" name="_remember_me"> Se souvenir de moi
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
+                </div>
+            </form>
+
+            <div class="signup-link mt-3">
+                <p style="color: black;">Vous n'avez pas de compte ?</p>
+                <p><a href="{{ path('app_signup') }}" class="ajax-link">Inscrivez-vous ici</a>.</p>
+            </div>
+        </div>
+    </div>
+
+    {% include 'partials/footer.html.twig' %}
+    <script src="{{ asset('assets/js/theme-handler.js') }}"></script>
+{% endblock %}

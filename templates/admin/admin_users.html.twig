@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Users {% endblock %}
+
+
+{% block body %}
+
+
+<!-- Inclusion de l'en-tête -->
+{% include 'partials/header.html.twig' %}
+
+{% include 'partials/nav.html.twig' %}
+
+<div class="container user_admin">
+    <h1>Manage Users</h1>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Favorites</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.username|e }}</td>
+                        <td>{{ user.email|e }}</td>
+                        <td>
+                            <div class="favorites-list">
+                                {% set favoriteArticles = favorites[user.id] ?? [] %}
+                                {% if favoriteArticles|length > 0 %}
+                                    {% for fav in favoriteArticles %}
+                                        <div class="favorite-item">
+                                            <span class="favorite-counter">{{ loop.index }}.</span>
+                                            {% set article = fav.article %}
+                                            <span class="favorite-id">[ID: {{ article.id }}]</span>
+                                            <a class="favorite-link ajax-link" href="{{ path('article_show', {id: article.id}) }}">
+                                                {{ article.titleArt|e }}
+                                            </a>
+                                            {% if article.imageArt is not empty %}
+                                                <img class="favorite-image" src="{{ asset('uploads/images/' ~ article.imageArt) }}" alt="{{ article.titleArt|e }}">
+                                            {% else %}
+                                                <em class="no-image">No image available</em>
+                                            {% endif %}
+
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="no-favorites">No favorites.</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <form action="{{path('delete_user')}}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                <button type="submit" class="btn btn-danger">Delete User</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include 'partials/footer.html.twig' %}
+<!-- Script personnalisé -->
+<script src="../../assets/js/theme-handler.js"></script>
+{% endblock %}

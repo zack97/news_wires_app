@@ -1,0 +1,106 @@
+<div id="alertPlaceholder"></div>
+
+<div class="articles_body">
+    <div class="contenu">
+        <div class="row">
+            <div class="left">
+                <h2>Dates and Titles of Articles</h2>
+                <ul>
+                    {# Merge arrays and slice: ideally do this in controller, but done here for demo #}
+                    {% set mergedArticles = latestArticles|merge(featuredArticles) %}
+                    {% set limitedArticles = mergedArticles|slice(0, 10) %}
+
+                    {% for article in limitedArticles %}
+                        <li>
+                            <strong>{{ article.dateArt ? article.dateArt|date('d/m/Y') : 'N/A' }}</strong> -
+                            <a href="{{ path('article_show', {'id': article.id}) }}" class="ajax-link">{{ article.titleArt }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="right">
+                <h2>Latest Press Releases</h2>
+
+                {% set limitedLatestArticles = latestArticles|slice(0, 10) %}
+                {% for article in limitedLatestArticles %}
+                    {% set fullContent = article.contentArt|striptags %}
+                    {% set words = fullContent|split(' ') %}
+                    {% set shortContent = words|slice(0, 20)|join(' ') ~ '...' %}
+
+                    <article>
+                        <div>
+                            <small>Reading time: {{ article.readtimeArt }} min</small><br>
+                            <small>Published on {{ article.dateArt ? article.dateArt|date('d/m/Y') : 'N/A' }}</small>
+                        </div>
+
+                        {% if article.imageArt is not empty %}
+                            <img src="{{ asset('uploads/images/' ~ article.imageArt) }}" alt="small image" class="art_image">
+                        {% endif %}
+
+                        <a href="{{ path('article_show', {'id': article.id}) }}" class="ajax-link">
+                            <h3 class="h6">{{ article.titleArt }}</h3>
+                        </a>
+
+                        <div class="article-content" style="margin-bottom: 1rem;">
+                            <p>
+                                <span class="short-content">{{ shortContent }}</span>
+                                <span class="full-content" style="display: none;">{{ fullContent }}</span>
+                            </p>
+                            <button class="toggle-btn btn btn-sm btn-primary" onclick="toggleContent(this)">
+                                Show more
+                            </button>
+                        </div>
+
+                        <small>Source: {{ article.urlArt }}</small><br>
+                       <button
+                            class="btn btn-sm btn-outline-primary mt-2"
+                            onclick="addToFavorites({{ article.id }})">
+                            Add to favorites
+                        </button>
+
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ JS scripts -->
+<script>
+function addToFavorites(articleId) {
+    fetch(`/favorite/add/${articleId}`)
+        .then(response => response.json())
+        .then(data => {
+            let alertType = 'info';
+            if (data.status === 'success') alertType = 'success';
+            if (data.status === 'error') alertType = 'danger';
+
+            document.getElementById('alertPlaceholder').innerHTML = `
+                <div class="alert alert-${alertType} alert-dismissible fade show" role="alert">
+                    ${data.message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('alertPlaceholder').innerHTML = `
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    An error occurred.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>`;
+        });
+}
+
+    function toggleContent(button) {
+        const container = button.closest('.article-content');
+        const shortContent = container.querySelector('.short-content');
+        const fullContent = container.querySelector('.full-content');
+
+        const isShortVisible = shortContent.style.display !== 'none';
+
+        shortContent.style.display = isShortVisible ? 'none' : 'inline';
+        fullContent.style.display = isShortVisible ? 'inline' : 'none';
+        button.textContent = isShortVisible ? 'Show less' : 'Show more';
+    }
+</script>

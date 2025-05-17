@@ -1,0 +1,25 @@
+<nav class="bg-dark text-white py-2">
+    <div class="container">
+        <div class="rownav">
+            <div class="col-md-2">
+                <a href="" class="btn btn-dark w-100">About</a>
+            </div>
+        {% if app.user %}
+            <div class="col-md-2">
+                <a href="{{ path('favorites_list') }}" class="btn btn-outline-primary ajax-link">Favorites</a>
+            </div>
+            {% if app.user.isAdmin %}
+            <div class="col-md-2">
+                <a href="{{ path('admin_users') }}" class="btn btn-outline-warning ajax-link">Users</a>
+            </div>
+            <div class="col-md-2">
+                <a href="{{ path('admin_articles') }}" class="btn btn-outline-info ajax-link">Articles</a>
+            </div>
+            {% endif %}
+        {% endif %}
+        </div>
+         <div class="col-md-12 nav_search mt-3">
+                <a href="{{ path('search_article') }}" class="btn btn-dark w-100">Search Articles</a>
+        </div>
+    </div>
+</nav>

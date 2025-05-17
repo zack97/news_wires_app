@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Favorites List{% endblock %}
+
+{% block body %}
+
+{% include 'partials/header.html.twig' %}
+
+{% include 'partials/nav.html.twig' %}
+<div class="container1 mt-3" style="color: #333; ">
+    <h1>Your Favorite Articles</h1>
+    <div class="header-row">
+            <div>Date</div>
+            <div>Image</div>
+            <div>Title</div>
+            <div>Content</div>
+            <div>Actions</div>
+    </div>  
+
+    {% if favorites is empty %}
+        <p>You have no favorite articles.</p>
+    {% else %}
+        {% for favorite in favorites %}
+            {% set article = favorite.article %}
+            <article class="mb-3" style=" <?php echo $isDark ? 'bg-dark' : ''; ?>"> 
+                <div>
+                  <small>{{ article.dateArt|date('Y-m-d') }}</small>
+                </div>
+                <div>
+                    {% if article.imageArt %}
+                        <img src="{{ asset('uploads/images/' ~ article.imageArt) }}" alt="image" width="150">
+                    {% endif %}
+                </div>
+                <div>
+                    <h3><a class="a_favorite" href="{{ path('article_show', {id: article.id}) }}">{{ article.titleArt }}</a></h3>
+                </div>
+                <div class="article-content">
+                   <p>
+                    <span class="short-content"><?php echo $shortContent; ?></span>
+                    <span class="full-content" style="display: none;"><?php echo $fullContent; ?></span>
+                   </p>
+                </div>
+               {# <p>{{ article.contentArt[:200]|raw }}...</p> #}
+
+                <form action="{{ path('app_favorites_remove', {id: article.id}) }}" method="post" class="d-inline remove-fav-form">
+                    <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                </form>
+            </article>
+        {% endfor %}
+    {% endif %}
+</div>
+{% include 'partials/footer.html.twig' %}
+
+<!-- Script personnalisé -->
+<script src="../../assets/js/theme-handler.js"></script>
+{% endblock %}
+
+
+

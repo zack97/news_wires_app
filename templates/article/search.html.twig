@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search articles {% endblock %}
+
+
+{% block body %}
+
+
+<!-- Inclusion de l'en-tête -->
+{% include 'partials/header.html.twig' %}
+
+{% include 'partials/nav.html.twig' %}
+
+<div class="full_recherche_content">
+    <div class="rechecheContent" style="background-color: #fff;">
+        <h1 class="text-center">Search Articles</h1>
+        <form method="post" action="{{ path('search_article') }}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="readingTimeMin">Minimum Reading Time (en minutes)</label>
+                    <input type="range" class="form-control-range" id="readingTimeMin" name="readingTimeMin" min="1" max="60" value="10"
+                        oninput="document.getElementById('minTimeValue').textContent = this.value">
+                    <small>Valeur : <span id="minTimeValue">10</span> minutes</small>
+                </div>
+                <div class="form-group">
+                    <label for="readingTimeMax">Maximum Reading Time (en minutes)</label>
+                    <input type="range" class="form-control-range" id="readingTimeMax" name="readingTimeMax" min="1" max="60" value="60"
+                        oninput="document.getElementById('maxTimeValue').textContent = this.value">
+                    <small>Valeur : <span id="maxTimeValue">60</span> minutes</small>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+    </div>
+
+    {% if articles is defined %}
+        {% if articles is empty %}
+            <div class='alert alert-warning text-center mt-3'>No articles found for the specified reading time</div>
+        {% else %}
+            <div class="found_content mt-4">
+                <h2 class="text-center">Articles Found</h2>
+                {% for article in articles %}
+                    <article class="mb-3 border-bottom pb-3">
+                        <div>
+                            <small>Publié le {{ article.date_art|default('Date inconnue') }}</small>
+                        </div>
+
+                        {% if article.image_art %}
+                            <img src="/uploads/images/{{ article.image_art }}" alt="Image de l'article" class="mr-2 image-size">
+                        {% endif %}
+
+                        <h3 class="h6 a_article">
+                            <a href="{{ path('article_show', {id: article.id_art}) }}">{{ article.title_art }}</a>
+                        </h3>
+
+                        {% set words = article.content_art|striptags|split(' ') %}
+                        <p class="article-content">
+                            <span class="short-content">{{ words|slice(0, 20)|join(' ') ~ '...' }}</span>
+                            <span class="full-content" style="display: none;">{{ article.content_art }}</span>
+                        </p>
+
+                        <button class="toggle-btn btn btn-sm btn-primary" onclick="toggleContent(this)">Show more</button>
+
+                        <div>
+                            Temps de lecture : <strong>{{ article.readtime_art }} minutes</strong>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+
+        {% endif %}
+    {% endif %}
+</div>
+{% include 'partials/footer.html.twig' %}
+
+    <script>
+        function toggleContent(button) {
+            const container = button.closest('article');
+            const shortContent = container.querySelector('.short-content');
+            const fullContent = container.querySelector('.full-content');
+
+            const isShortVisible = shortContent.style.display !== 'none';
+
+            shortContent.style.display = isShortVisible ? 'none' : 'inline';
+            fullContent.style.display = isShortVisible ? 'inline' : 'none';
+            button.textContent = isShortVisible ? 'Show less' : 'Show more';
+        }
+    </script>
+
+<!-- Script personnalisé -->
+<script src="../../assets/js/theme-handler.js"></script>
+{% endblock %}

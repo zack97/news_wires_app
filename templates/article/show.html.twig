@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article : {{ article.idArt }}{% endblock %}
+
+{% block body %}
+
+<!-- Inclusion de l'en-tête -->
+{% include 'partials/header.html.twig' %}
+
+{% include 'partials/nav.html.twig' %}
+
+
+<div class="container mt-3">
+    <h1>{{ article.titleArt|e }}</h1>
+    <p><small>Publié le {{ article.dateArt|date('d-m-Y') }}</small></p>
+
+    {% if article.imageArt is not empty %}
+        <img src="{{ asset('uploads/images/' ~ article.imageArt) }}" alt="Image de l'article" class="img-fluid mb-3">
+    {% endif %}
+
+    <p>{{ article.contentArt|e|nl2br }}</p>
+</div>
+
+{% include 'partials/footer.html.twig' %}
+
+<!-- Script personnalisé -->
+<script src="../../assets/js/theme-handler.js"></script>
+{% endblock %}
