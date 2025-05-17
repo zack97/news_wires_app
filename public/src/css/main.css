@@ -15,6 +15,10 @@ body {
   color: #333;
 }
 
+ul {
+  list-style: none;
+}
+
 h1,
 h2,
 h3 {
@@ -270,24 +274,13 @@ img[src="/site/media/resco.jpg"] {
 .form-group button:hover {
   background-color: #0056b3;
 }
-.signup-link {
-  text-align: center;
-  margin-top: 10px;
-}
-.signup-link a {
-  color: #007bff;
-  text-decoration: none;
-}
-.signup-link a:hover {
-  text-decoration: underline;
-}
 
 .signup-container {
-  background: #ffffff;
-  padding: 20px 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 50%;
+}
+
+.signup-link a {
+  color: blue;
 }
 .signup-container h1 {
   margin-bottom: 20px;

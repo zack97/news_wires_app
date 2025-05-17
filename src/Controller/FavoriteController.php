@@ -63,18 +63,14 @@ class FavoriteController extends AbstractController
 
     #[Route('/favorites/remove/{id}', name: 'app_favorites_remove', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function remove(Article $article, EntityManagerInterface $em, FavoriteRepository $favoriteRepository): JsonResponse
+    public function remove(Article $article, EntityManagerInterface $em, FavoriteRepository $favoriteRepository): RedirectResponse
     {
         $user = $this->getUser();
         $favorite = $favoriteRepository->findOneBy(['user' => $user, 'article' => $article]);
 
-        if (!$favorite) {
-            return new JsonResponse(['status' => 'error', 'message' => 'Not in favorites.'], 400);
-        }
-
         $em->remove($favorite);
         $em->flush();
 
-        return new JsonResponse(['status' => 'success', 'message' => 'Removed from favorites.']);
+        return $this->redirectToRoute('favorites_list');
     }
 }

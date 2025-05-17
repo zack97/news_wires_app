@@ -3,9 +3,12 @@
         <div class="row py-4">
             <div class="col-md-4">
                 <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
+                  {% if app.user %}
+                    <li><a href="{{ path('app_logout') }}">Log Out</a></li>
+                  {% else %}
+                    <li><a href="{{path('app_login')}}">Log In</a></li>
+                 {% endif %}
+                    <li><a href="{{path('app_about')}}">About Us</a></li>
                 </ul>
             </div>
             <div class="col-md-4">

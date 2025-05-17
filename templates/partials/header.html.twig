@@ -1,14 +1,14 @@
 <header class="py-4">
-    <div class="container">
+    <div class="container header-container">
         <div class="row align-items-center header-ul">
-            <div class="col-md-3 text-center text-md-left">
-                <a href="/" class="ajax-link">
+            <div class="logo-img col-md-3 text-center text-md-left">
+                <a href="/" >
                     <img src="{{ asset('uploads/images/news.jpg') }}" alt="icone_news" class="logo img-fluid" />
                 </a>
             </div>
 
-            <div class="col-md-9 text-center text-md-right">
-                <ul class="list-unstyled d-flex flex-column flex-md-row justify-content-md-end mb-0" id="header-links">
+            <div class="col-md-9 text-center text-md-right header-btn-resp">
+                <ul class="list-unstyled d-flex flex-md-row justify-content-md-end mb-0" id="header-links">
 
                     {% if app.user %}
                         <li class="mr-md-3">
@@ -18,7 +18,7 @@
                         </li>
 
                         <li class="mr-md-3 d-flex align-items-center">
-                            <a href="#" data-toggle="modal" data-target="#profileImageModal" class="mr-2 ajax-link">
+                            <a href="#" data-toggle="modal" data-target="#profileImageModal" class="mr-2">
                                     <i class="fa-solid fa-user i_user"></i>
                             </a>
                         </li>
@@ -30,10 +30,10 @@
                         </li>
 
                     {% else %}
-                        <li class="mr-md-3 none" style="color: #333;">Questions? +1 (202) 335-3939</li>
-                        <li class="mr-md-3 none" style="color: #333;">Contact</li>
+                        <li class="mr-md-3 none-num" style="color: #333;">Questions? +1 (202) 335-3939</li>
+                        <li class="mr-md-3 none-num" style="color: #333;">Contact</li>
                         <li class="mr-md-3">
-                            <a href="{{ path('app_login') }}" class="btn btn-primary ajax-link">Log In</a>
+                            <a href="{{ path('app_login') }}" class="btn btn-primary ">Log In</a>
                         </li>
                     {% endif %}
 
