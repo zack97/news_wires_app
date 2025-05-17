@@ -47,3 +47,8 @@ edit_article:
 delete_article:
   path: /article/delete/{id}
   controller: App\Controller\AdminController::deleteArticle
+
+app_about:
+  path: /about
+  controller: App\Controller\AboutController::aboutPage
+  methods: [GET]

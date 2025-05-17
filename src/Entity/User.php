@@ -36,12 +36,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "boolean", options: ["default" => false])]
     private ?bool $isAdmin = false;
 
-    #[ORM\Column(type: "string", length: 255, nullable: true)]
-    private ?string $profileImage = null;
-
-
+  
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favorite::class, cascade: ['remove'])]
     private Collection $favorites;
+
 
     public function __construct()
     {
@@ -150,17 +148,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsAdmin(bool $isAdmin): self
     {
         $this->isAdmin = $isAdmin;
-        return $this;
-    }
-
-    public function getProfileImage(): ?string
-    {
-        return $this->profileImage;
-    }
-
-    public function setProfileImage(?string $profileImage): self
-    {
-        $this->profileImage = $profileImage;
         return $this;
     }
 

@@ -1,3 +1,27 @@
+/* Exemple simple de thème sombre */
+body.dark-theme {
+  background-color: lightblue;
+  color: #333;
+}
+
+body.dark-theme a {
+  color: #007bff;
+}
+
+body.dark-theme .btn-primary {
+  background-color: #bb86fc;
+  border-color: #bb86fc;
+}
+
+body.dark-theme header {
+  background-color: rgb(120, 203, 231);
+}
+
+body.dark-theme nav {
+  background-color: #bb86fc;
+}
+/* Tu peux étendre les styles selon ton besoin */
+
 .articles_body {
   max-width: 1200px;
   margin: 2rem auto;

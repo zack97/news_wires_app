@@ -19,17 +19,7 @@
 
                         <li class="mr-md-3 d-flex align-items-center">
                             <a href="#" data-toggle="modal" data-target="#profileImageModal" class="mr-2 ajax-link">
-                                {% if app.user.profileImage %}
-                                    <img src="{{ asset('uploads/images/' ~ app.user.profileImage) }}"
-                                         alt="Profile Image"
-                                         class="profile-img"
-                                         style="width: 25px; height:25px; border-radius: 50%;" />
-                                {% else %}
                                     <i class="fa-solid fa-user i_user"></i>
-                                {% endif %}
-                            </a>
-                            <a href="#" data-toggle="modal" data-target="#viewProfileImageModal" title="View Full Image" class="ajax-link">
-                                <i class="fas fa-eye text-primary"></i>
                             </a>
                         </li>
 
@@ -64,3 +54,38 @@
         </div>
     </div>
 </header>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const lightThemeBtn = document.getElementById('light-theme');
+    const darkThemeBtn = document.getElementById('dark-theme');
+
+    // Fonction pour appliquer le thème
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+    }
+
+    // Charger le thème au chargement de la page
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
+
+    // Événements click pour changer le thème
+    lightThemeBtn.addEventListener('click', e => {
+        e.preventDefault();
+        applyTheme('light');
+        localStorage.setItem('theme', 'light');
+    });
+
+    darkThemeBtn.addEventListener('click', e => {
+        e.preventDefault();
+        applyTheme('dark');
+        localStorage.setItem('theme', 'dark');
+    });
+});
+</script>
