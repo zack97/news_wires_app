@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: news-wires-app
-    env: php
-    buildCommand: "composer install --no-dev --optimize-autoloader"
-    startCommand: "php -S 0.0.0.0:10000 -t public"
-    plan: free
