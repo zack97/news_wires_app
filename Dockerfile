@@ -1,27 +1,39 @@
 # Étape 1 : image PHP officielle avec Apache
 FROM php:8.2-apache
 
-# Étape 2 : installe les dépendances nécessaires
+# Étape 2 : installation des dépendances système
 RUN apt-get update && apt-get install -y \
-    git unzip libicu-dev libonig-dev libzip-dev zip libpng-dev libjpeg-dev libfreetype6-dev \
-    && docker-php-ext-install intl pdo pdo_mysql zip opcache \
-    && a2enmod rewrite
+    git unzip zip curl libicu-dev libpq-dev libonig-dev libzip-dev libxml2-dev \
+    && docker-php-ext-install intl pdo pdo_pgsql zip opcache
 
-# Étape 3 : installe Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Étape 3 : activer mod_rewrite pour Symfony
+RUN a2enmod rewrite
 
-# Étape 4 : copie le projet
-COPY . /var/www/html/
+# Étape 4 : installer Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Étape 5 : configuration Apache/Symfony
+# Étape 5 : définition du dossier de travail
 WORKDIR /var/www/html
-RUN composer install --no-dev --optimize-autoloader
 
-# Symfony stocke ses fichiers publics ici
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+# Étape 6 : copier les fichiers de l'application
+COPY . .
 
-# Corrige les permissions si nécessaire
-RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
+# Étape 7 : installer les dépendances PHP sans scripts auto (évite symfony-cmd)
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
+# Étape 8 : définir les permissions correctes
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/public
+
+# Étape 9 : configuration Apache pour Symfony (rediriger vers public/index.php)
+RUN echo '<Directory /var/www/html/public>\n\
+    AllowOverride All\n\
+    Order Allow,Deny\n\
+    Allow from All\n\
+</Directory>' > /etc/apache2/conf-available/symfony.conf && \
+    a2enconf symfony
+
+# Port exposé
 EXPOSE 80
+
+# Commande de démarrage par défaut
+CMD ["apache2-foreground"]
